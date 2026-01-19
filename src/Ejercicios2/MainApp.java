@@ -2,13 +2,16 @@ package Ejercicios2;
 
 import static Ejercicios.CollectionUtilities.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainApp {
 
     public static void main(String[] args) {
 
         //EJERCICIO 1
+        System.out.println("--------- EJERCICIO 1 ---------");
         List<Persona> personas = list(
                 new Persona("Ana", 15),
                 new Persona("Juan", 25),
@@ -32,6 +35,7 @@ public class MainApp {
         System.out.println("Mayores de 40: " + resultado.mayores40);
 
         //EJERICIO 2
+        System.out.println("\n--------- EJERCICIO 2 ---------");
         List<String> nombresNuevos = list("user_1", "abc", "admin_2024", "error!");
 
         // Estado inicial
@@ -56,6 +60,28 @@ public class MainApp {
         resultadoFinal.logs.forEach(System.out::println); 
         // Nota: uso forEach aquí solo para imprimir el resultado final, 
         // el procesamiento fue puramente funcional con tus utilidades.
+
+        //EJERCICIO 3
+        System.out.println("\n--------- EJERCICIO 3 ---------");
+        // 1. Lista de entrada 
+        List<String> palabras = list("rojo", "azul", "rojo", "verde", "azul", "azul","amarrillo","verde");
+
+        // 2. Estado inicial: un Map vacío
+        Map<String, Integer> inicial3 = new HashMap<>();
+
+        // 3. Aplicar foldLeft para contar
+        Map<String, Integer> resultado3 = foldLeft(palabras, inicial3, acc -> palabra -> {
+            // Creamos una copia para mantener la filosofía de inmutabilidad (opcional según rigor)
+            Map<String, Integer> nuevoAcc = new HashMap<>(acc);
+            
+            // Si la palabra existe, sumamos 1; si no, empezamos en 1
+            nuevoAcc.put(palabra, nuevoAcc.getOrDefault(palabra, 0) + 1);
+            
+            return nuevoAcc;
+        });
+
+        // 4. Salida esperada: Map("rojo" -> 2, "azul" -> 3, "verde" -> 1)
+        System.out.println("Salida: " + resultado3);
 
     }
 

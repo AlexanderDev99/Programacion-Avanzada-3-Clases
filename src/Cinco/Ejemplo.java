@@ -1,6 +1,5 @@
 package Cinco;
 
-import dos.Doble;
 import dos.Function;
 
 public class Ejemplo {
