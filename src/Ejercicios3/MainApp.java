@@ -3,6 +3,7 @@ package Ejercicios3;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import static Ejercicios3.CollectionUtilities.*;
 
 //CORECURSIVIDAD
 public class MainApp {
@@ -98,42 +99,62 @@ public class MainApp {
 
     // FIbonaci usando Tail recursivo y correcursividad (almacenar calculos
     // anteriores)
-    public static void fibAux(List<BigInteger> acc, BigInteger acc1, BigInteger acc2, BigInteger n) {
+    public static List<BigInteger> fibAux(List<BigInteger> acc, BigInteger acc1, BigInteger acc2, BigInteger n) {
         System.out.printf("fib: %d\n", n);
 
         if (n.equals(BigInteger.ZERO)) {
-            acc.add(BigInteger.ZERO);
+            return acc;
         } else if (n.equals(BigInteger.ONE)) {
-            acc.add(acc1.add(acc2));
+            return append(acc, acc1.add(acc2));
         } else {
+
+            // analogia que buscamos con funcional
             /*
              * f = x1.add(x2);
              * x1 = x2;
              * x2 = f;
              */
-            acc.add(acc1.add(acc2));
-            fibAux(acc, acc2, acc1.add(acc2),
-                    n.subtract(BigInteger.ONE));
-        }
 
-        /*
-         * fibAux(acc, acc2, acc1.add(acc2),
-         * n.subtract(BigInteger.ONE));
-         */
+            // forma funcional
+            List<BigInteger> tmp = append(acc, acc1.add(acc2));
+            return fibAux(tmp, acc2,
+                    acc1.add(acc2),
+                    n.subtract(BigInteger.ONE));
+
+        }
     }
 
     public static List<BigInteger> fibTailRecursivo(Integer n) {
-        List<BigInteger> lis = new ArrayList<>();
+        List<BigInteger> lis = list();
         fibAux(lis, BigInteger.ONE,
                 BigInteger.ZERO,
                 BigInteger.valueOf(n));
         return lis;
     }
 
+    public static <T> String makeString(List<T> list, String sep) {
+
+        // forma iterativa
+        /*
+         * StringBuilder sb = new StringBuilder();
+         * for (var it : list) {
+         * 
+         * sb.append(it);
+         * sb.append(sep);
+         * }
+         */
+
+        // forma funcional
+        T h = head(list); // cabecera
+        List<T> t = tail(list);
+        return h + foldLeft(t, "", x -> y -> x + sep + y);
+
+    }
+
     public static void main(String[] args) {
 
         Integer n = 40;
-        Integer n2 = 1000;
+        Integer n2 = 50;
         // Integer res = fib(n);
         // System.out.println(res);
 
